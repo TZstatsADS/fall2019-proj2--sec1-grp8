@@ -2,8 +2,8 @@
 # the 'mpg' dataset.
 library(ggplot2)
 
-fluidPage(
-  titlePanel("NYC Park Events"),
+navbarPage('NYC Park Events', #theme = shinytheme("cyborg"),
+  tabPanel("NYC Park Events List"),
   
   # Create a new Row in the UI for selectInputs
   fluidRow(
