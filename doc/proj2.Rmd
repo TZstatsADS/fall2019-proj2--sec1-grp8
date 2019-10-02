@@ -1,0 +1,145 @@
+---
+title: "ADS project 2"
+author: "Daniel Lee"
+date: "9/24/2019"
+output: html_document
+---
+
+```{r,message=FALSE, error=FALSE}
+# required packages
+library(dtplyr)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(shiny)
+library(choroplethr)
+library(choroplethrZip)
+library(ggplot2)
+library(ggmap)
+library(readr)
+library(plyr)
+library(tmap)
+library(sf)
+library(leaflet)
+library(raster)
+library(spData)
+library(shinydashboard)
+library(shinythemes)
+library(leaflet.extras)
+library(magrittr)
+library(gmapsdistance)
+library(plotly)
+library(googleway)
+library(mapview)
+register_google(key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+```
+
+
+
+```{r}
+# fuel project
+# import data
+altfuel <- read.csv("~/Desktop/ADS/proj 2/alt_fuel_stations.csv") # need to change for u guys
+altfuel <- altfuel[altfuel$Country == "US",] # using only US
+alt <- head(altfuel, 5000) # shorter version of data for quick testing
+alt$images <- alt_fuel_images # street view images column
+pal <- colorFactor(c("red", "yellow", "orange","green","grey","purple","blue"), domain = unique(altfuel$station_type)) # color palette by fuel type
+
+# getting street view images for all locations
+fuel_images <- NULL
+for (i in 1:nrow(altfuel)){
+  fuel_images[i] <- google_streetview(location = c(altfuel$Latitude[i],altfuel$Longitude[i]), size=c(100,100), output="html", key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+}
+alt_fuel_images <- head(fuel_images,5000)
+
+google_streetview(location = c(alt$Latitude[100],alt$Longitude[100]), size=c(100,100), output="html", key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+
+# by zipcode
+alt %>%
+  #filter(Fuel.Type.Code == "CNG") %>%
+  group_by(ZIP) %>%
+  tally()
+
+# by state
+chlo_state <- alt %>%
+  #filter(Fuel.Type.Code == "CNG") %>%
+  group_by(State) %>%
+  tally() %>%
+  mutate(density = n/5000)
+
+leaflet(chlo_state) %>% 
+  addProviderTiles("CartoDB.Positron") %>%
+  setView(-96, 37.8, 4) %>%
+  addHeatmap(lng = ~long, lat = ~lat, intensity = ~mag,
+             blur = 20, max = 0.05, radius = 15)
+
+```
+ 
+```{r}
+leaflet(alt) %>%
+  setView(-96, 37.8, 4) %>%
+  addTiles() %>%
+  addPolygons()
+
+leaflet(alt) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~Longitude, 
+                   lat = ~Latitude,
+                   color = ~pal(Fuel.Type.Code),
+                   stroke = FALSE,
+                   fillOpacity = 0.5,
+                   label = ~Station.Name,
+                   popup = ~Street.Address,
+                   radius = 5
+                   )
+elec <- alt[alt$Fuel.Type.Code == "ELEC",]
+leaflet(elec) %>%
+  addTiles() %>%
+  addCircleMarkers(lng = ~Longitude, 
+                   lat = ~Latitude,
+                   color = ~pal(Fuel.Type.Code),
+                   stroke = FALSE,
+                   fillOpacity = 0.5,
+                   label = ~Station.Name,
+                   popup = ~Street.Address,
+                   radius = 5
+                   )
+```
+
+
+
+```{r}
+# park data
+# import data
+category <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Categories.csv")
+links <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Links.csv")
+listing <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Listing.csv")
+organizers <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Organizers.csv")
+images <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Images.csv")
+locations <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Locations.csv")
+
+# problem: multiple categories for one event
+
+# combine all tables into one
+parks <- locations %>%
+  join(organizers, type="left", by="event_id")
+parks <- parks %>%
+  join(listing, type="left", by="event_id")
+parks <- parks %>%
+  join(images, type="left", by="event_id")
+parks$borough <- case_when(
+                      parks$borough == "B" ~ "Brooklyn",
+                      parks$borough == "X" ~ "Brox",
+                      parks$borough == "M" ~ "Manhattan",
+                      parks$borough == "R" ~ "Staten Island",
+                      parks$borough == "Q" ~ "Queens"
+                      )
+parks <- as.data.frame(parks)
+sort(table(category$name), decreasing = TRUE)
+
+
+```
+
+
+
+
