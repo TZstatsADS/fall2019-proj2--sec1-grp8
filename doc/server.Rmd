@@ -142,8 +142,22 @@ ui <-
           "Gasoline",
           fluidPage(
             fluidRow(
-            textInput(inputId = "start_point","Start")
-          )
+            textInput(inputId = "start_point","Start"),
+            textInput(inputId = "end_point","Destination")
+          ),
+            fluidRow(
+              selectInput(inputId = "car_brand","Manufacturer",
+                          choices = unique(car_data$Manufacturer)),
+              selectInput(inputId = "car_year","Year",
+                          choices = unique(car_data$Model.Year)),
+              selectizeInput(inputId = 'model_selection', 
+                             label = "Model", choices = unique(car_data$Model),
+                             selected = NULL,
+                             options = list(maxOptions=10, create = TRUE),
+              ),
+              submitButton("Calculate"),
+              box(textOutput("gasoline_calc"))
+            )
         )
       )
       )
@@ -163,12 +177,21 @@ ui <-
                 "Heatmap",
                 fluidRow(
                    leafletOutput("heatmap"),
-                     selectInput(inputId = "heat_fuel_type",
-                    label= "Fuel type",
-                    choices = c("All",as.character(unique(altfuel$Fuel.Type.Code))),
-          submitButton("Go!")
-      )
-    )
+                   selectInput(inputId = "heat_fuel_type",
+                               label= "Fuel type",
+                              choices = c("All",as.character(unique(altfuel$Fuel.Type.Code)))),
+                   submitButton("Go!")
+                      )
+                    ),
+              tabPanel(
+                "Animation",
+                fluidRow(
+                  leafletOutput("animate"),
+                  sliderInput(inputId = "heat_years",
+                              label="Years",
+                              min = 1953, max = 2019, value=2000,
+                              animate=animationOptions(interval = 50))
+                )
               )
             )
     ),
@@ -186,6 +209,8 @@ ui <-
 
 
 server <- function(input, output) {
+  pal <- colorFactor(c("indianred", "yellow", "lightsalmon", "palegreen", "gray74", "lightpink", "cornflowerblue"), domain = unique(altfuel$station_type)) # color palette by fuel type
+
   output$plot1 <- renderLeaflet({
     altrows <- which(alt$Fuel.Type.Code == input$fuel_type)
     data <- alt[altrows,]
@@ -275,26 +300,71 @@ server <- function(input, output) {
         title = "Number of stations by fuel type"
       )
   })
+  animate_data <- reactive({
+    animatedata <- subset(altfuel, year == 1953)
+    if (input$heat_years > 1953){
+      animatedata <- subset(altfuel, year %in% c(1953:input$heat_years))
+    }
+    return(animatedata)
+  })
+  output$animate <- renderLeaflet({
+      leaflet(animate_data()) %>%
+        addProviderTiles("CartoDB.Positron") %>%
+        addCircleMarkers(lng = ~Longitude, 
+                        lat = ~Latitude,
+                        stroke = FALSE,
+                        radius = 5,
+                        fillOpacity = 0.7,
+                        color = ~pal(Fuel.Type.Code)) %>%
+                        addLegend("bottomright", pal = pal, values = ~Fuel.Type.Code,
+                                  title = "Fuel type",
+                                  opacity = 1)
+  })
   output$directory <- renderDataTable({
     shortinfo <- alt[,c('Station.Name','Street.Address','City','State','ZIP','Station.Phone','Owner.Type.Code','Access.Detail.Code')]
     shortinfo
   })
   output$timeline <- renderPlotly({
-    altfuel$year <- substr(altfuel$Open.Date,0,4)
     timedata_temp <- altfuel[,c('Fuel.Type.Code','year')]
     timedata <- altfuel%>%
       group_by(year, Fuel.Type.Code) %>%
       tally()
   })
-    
+  output$gasoline_calc <- renderText({
+    #distance
+    dis <- gmapsdistance(origin= paste(input$start_point[[2]],"+", 
+                                       input$start_point[[1]],sep = ""), 
+              destination= paste(input$end_point[[2]],"+",
+                                 input$end_point[[1]],sep = ""),
+                  departure = "now",
+                  key = "AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc",
+                  mode = "driving")
+    distance_val <- dis$Distance #meters
+    distance_time <- dis$Time #seconds
+    #gas price
+    gas_price <- 3
+    #thing
+    gas_data <- car_data %>%
+      filter(Manufacturer  == input$car_brand) %>%
+      filter(Model.Year  == input$car_year) %>%
+      filter(Model  == input$model_selection)
+    gas_data <- gas_data[,c("Conventional.Fuel.Economy.City", "Conventional.Fuel.Economy.Highway")]
+    distance_val * 0.000621371 / gas_data[,1] * gas_price
+  })
+#  output$choro <- renderGvis({
+#    geostates <- gvisGeoChart(by_state, locationvar="State", colorvar = "n",
+#                 options=list(width=700, height=450,
+#                              displayMode = "regions",
+#                              colorAxis="{colors:[\'red']}"))
+#    plot(geostates)
+#  })
+
 }
 
 
 shinyApp(ui, server)
 ```
 
-
-![](./table2.png){width=250px,height=200px}
 
 ```{r}
 #geocoding
@@ -307,8 +377,5 @@ geotest[,1] <- as.character(geotest[,1])
 mutate_geocode(geotest)
 
 ```
-
-
-
 
 
