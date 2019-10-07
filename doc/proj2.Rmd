@@ -31,6 +31,8 @@ library(gmapsdistance)
 library(plotly)
 library(googleway)
 library(mapview)
+library(shinyWidgets)
+library(googleVis)
 register_google(key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
 ```
 
@@ -42,69 +44,31 @@ register_google(key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
 altfuel <- read.csv("~/Desktop/ADS/proj 2/alt_fuel_stations.csv") # need to change for u guys
 altfuel <- altfuel[altfuel$Country == "US",] # using only US
 alt <- head(altfuel, 5000) # shorter version of data for quick testing
-alt$images <- alt_fuel_images # street view images column
-pal <- colorFactor(c("red", "yellow", "orange","green","grey","purple","blue"), domain = unique(altfuel$station_type)) # color palette by fuel type
+alt_fuel_images <- head(fuel_images,5000)
+
+altfuel$year <- substr(altfuel$Open.Date,0,4)
 
 # getting street view images for all locations
 fuel_images <- NULL
 for (i in 1:nrow(altfuel)){
   fuel_images[i] <- google_streetview(location = c(altfuel$Latitude[i],altfuel$Longitude[i]), size=c(100,100), output="html", key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
 }
-alt_fuel_images <- head(fuel_images,5000)
+altfuel$images <- fuel_images # street view images column
 
-google_streetview(location = c(alt$Latitude[100],alt$Longitude[100]), size=c(100,100), output="html", key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+pal <- colorFactor(c("red", "yellow", "orange","green","grey","purple","blue"), domain = unique(altfuel$station_type)) # color palette by fuel type
 
-# by zipcode
-alt %>%
-  #filter(Fuel.Type.Code == "CNG") %>%
-  group_by(ZIP) %>%
-  tally()
+car_data <- read.csv("~/Desktop/ADS/proj 2/light-duty-vehicles.csv")
 
-# by state
-chlo_state <- alt %>%
-  #filter(Fuel.Type.Code == "CNG") %>%
+by_state <- altfuel %>%
   group_by(State) %>%
-  tally() %>%
-  mutate(density = n/5000)
-
-leaflet(chlo_state) %>% 
-  addProviderTiles("CartoDB.Positron") %>%
-  setView(-96, 37.8, 4) %>%
-  addHeatmap(lng = ~long, lat = ~lat, intensity = ~mag,
-             blur = 20, max = 0.05, radius = 15)
+  tally()
+by_state <- by_state[-c(1,4,42),]
+by_state <- by_state[-8,]
+stateabb <- as.data.frame(state.abb)
+stateabb$state.abb <- as.character(state.abb)
 
 ```
  
-```{r}
-leaflet(alt) %>%
-  setView(-96, 37.8, 4) %>%
-  addTiles() %>%
-  addPolygons()
-
-leaflet(alt) %>%
-  addTiles() %>%
-  addCircleMarkers(lng = ~Longitude, 
-                   lat = ~Latitude,
-                   color = ~pal(Fuel.Type.Code),
-                   stroke = FALSE,
-                   fillOpacity = 0.5,
-                   label = ~Station.Name,
-                   popup = ~Street.Address,
-                   radius = 5
-                   )
-elec <- alt[alt$Fuel.Type.Code == "ELEC",]
-leaflet(elec) %>%
-  addTiles() %>%
-  addCircleMarkers(lng = ~Longitude, 
-                   lat = ~Latitude,
-                   color = ~pal(Fuel.Type.Code),
-                   stroke = FALSE,
-                   fillOpacity = 0.5,
-                   label = ~Station.Name,
-                   popup = ~Street.Address,
-                   radius = 5
-                   )
-```
 
 
 

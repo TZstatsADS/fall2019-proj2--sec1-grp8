@@ -1,0 +1,150 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(plotly)
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+data <- read.csv("../data/alt_fuel_stations.csv")
+```
+
+```{r}
+data$fueltype = as.character(data$Fuel.Type.Code)
+data$fueltype[data$fueltype == "ELEC"] <- "Electric"
+data$fueltype[data$fueltype == "CNG"] <- 'Compressed Natural Gas'
+data$fueltype[data$fueltype == "BD"] <- 'Biodiesel (B20 and above)'
+data$fueltype[data$fueltype == "E85"] <- 'Ethanol (E85)'
+data$fueltype[data$fueltype == "HY"] <- 'Hydrogen'
+data$fueltype[data$fueltype == "LNG"] <- 'Liquefied Natural Gas'
+data$fueltype[data$fueltype == "LPG"] <- 'Liquefied Petroleum Gas (Propane)'
+
+
+data %>%
+  group_by(fueltype) %>%
+  summarise(count= n()) %>%
+  plot_ly(labels=~fueltype, values = ~count, type = 'pie') %>%
+  layout(title = "Count of Alternative Fuel Stations by Fuel Type",
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+```
+```{r}
+access<- data %>%
+  group_by(Access.Code, fueltype) %>%
+  summarise(count = n())
+
+access<- access %>%
+  group_by(fueltype) %>%
+  mutate(countT=sum(count)) %>%
+  group_by(Access.Code, add = TRUE) %>%
+  mutate(per = round(100*count/countT,1)) %>%
+  subset(select = -c(count, countT))
+
+
+#from long to wide
+access_wide <- spread(access,Access.Code,per)
+
+top_labels<- c("Public", "Private")
+x1<- access_wide$public
+x2 <- access_wide$private
+access_wide %>%
+  plot_ly(x = ~private, y = ~fueltype, type = 'bar', orientation = 'h',
+           marker = list(color = 'rgb(34,139,34)',
+                      line = list(color = 'rgb(107,142,35)', width = 1))) %>%
+  add_trace(x = ~public, y = ~fueltype, type = 'bar', orientation = 'h', marker = list(color = 'rgb(143,188,143)')) %>%
+  layout(xaxis = list(title = "",
+                      showgrid = FALSE,
+                      showline = FALSE,
+                      showticklabels = FALSE,
+                      zeroline = FALSE,
+                      domain = c(0.15, 1)),
+         yaxis = list(title = "",
+                      showgrid = FALSE,
+                      showline = FALSE,
+                      showticklabels = FALSE,
+                      zeroline = FALSE),
+         barmode = 'stack',
+         paper_bgcolor = 'rgb(248, 248, 255)', plot_bgcolor = 'rgb(248, 248, 255)',
+         margin = list(l = 120, r = 10, t = 140, b = 80),
+         showlegend = FALSE) %>%
+  add_annotations(xref = 'paper', yref = 'y', x = 0.14, y = access_wide$fueltype,
+                  xanchor = 'right',
+                  text = access_wide$fueltype,
+                  font = list(family = 'Arial', size = 12,
+                            color = 'rgb(67, 67, 67)'),
+                  showarrow = FALSE, align = 'right') %>%
+  add_annotations(xref = 'x', yref = 'paper',
+                  x = c(31.7/ 2, 31.7+68.3/ 2),
+                  y = 1.15,
+                  text = top_labels,
+                  font = list(family = 'Arial', size = 12,
+                              color = 'rgb(67, 67, 67)'),
+                  showarrow = FALSE) %>%
+  add_annotations(xref = 'x', yref = 'y',
+                  x = x2/ 2, y = access_wide$fueltype,
+                  text = paste(x2, '%'),
+                  font = list(family = 'Arial', size = 12,
+                            color = 'rgb(248, 248, 255)'),
+                  showarrow = FALSE) %>%
+add_annotations(xref = 'x', yref = 'y',
+                  x = x2 + x1 / 2, y = access_wide$fueltype,
+                  text = paste(x1, '%'),
+                  font = list(family = 'Arial', size = 12,
+                              color = 'rgb(248, 248, 255)'),
+                  showarrow = FALSE) 
+
+  
+```
+
+
+```{r}
+top10_state <-data %>%
+  group_by(State) %>%
+  summarise(count=n())%>%
+  arrange(desc(count))%>%
+  head(n=10)
+top10_state$State = as.character(top10_state$State)
+top10_state$State <- factor(top10_state$State, levels = top10_state[['State']])
+top10_state %>%
+  plot_ly(x = ~State, y = ~count, type = 'bar',
+                  marker = list(color = c('rgb(143,188,143)',
+                                'rgba(204,204,204,1)','rgba(204,204,204,1)', 'rgba(204,204,204,1)',
+                                'rgba(204,204,204,1)', 'rgba(204,204,204,1)', 'rgba(204,204,204,1)',
+                                'rgba(204,204,204,1)','rgba(204,204,204,1)','rgba(204,204,204,1)'))) %>%
+layout(title = "Top 10 States with the most number of alternative fuel stations",
+         xaxis = list(title = "State"),
+         yaxis = list(title = "Count of Stations"))
+```
+
+```{r}
+top10 <-data %>%
+  group_by(City) %>%
+  summarise(count=n())%>%
+  arrange(desc(count))%>%
+  head(n=10)
+top10$City = as.character(top10$City)
+top10$City <- factor(top10$City, levels = top10[['City']])
+top10 %>%
+  plot_ly(x = ~City, y = ~count, type = 'bar',
+                  marker = list(color = c('rgb(143,188,143)',
+                                'rgba(204,204,204,1)','rgba(204,204,204,1)', 'rgba(204,204,204,1)',
+                                'rgba(204,204,204,1)', 'rgba(204,204,204,1)', 'rgba(204,204,204,1)',
+                                'rgba(204,204,204,1)','rgba(204,204,204,1)','rgba(204,204,204,1)'))) %>%
+layout(title = "Top 10 Cities with the most number of alternative fuel stations",
+         xaxis = list(title = "City"),
+         yaxis = list(title = "Count of Stations"))
+```
+
+
+
+
