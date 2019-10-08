@@ -1,6 +1,6 @@
 # Project 2: Shiny App Development Version 2.0
 
-<img src="doc/figs/fuel.jpg" width="600">
+<img src="doc/figs/intro_pic.jpg" width="600">
 
 ## U.S.Alternative Fuel Stations 
 
