@@ -20,7 +20,7 @@ The **learning goals** for this project is:
 ## U.S.Alternative Fuel Stations 
 Term: Spring 2019
 
-+ Team #
++ Team sec1-grp8
 + **Projec title**: + Team members
 	+ Daniel Lee
 	+ Rui Cao
