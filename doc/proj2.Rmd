@@ -1,0 +1,109 @@
+---
+title: "ADS project 2"
+author: "Daniel Lee"
+date: "9/24/2019"
+output: html_document
+---
+
+```{r,message=FALSE, error=FALSE}
+# required packages
+library(dtplyr)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(shiny)
+library(choroplethr)
+library(choroplethrZip)
+library(ggplot2)
+library(ggmap)
+library(readr)
+library(plyr)
+library(tmap)
+library(sf)
+library(leaflet)
+library(raster)
+library(spData)
+library(shinydashboard)
+library(shinythemes)
+library(leaflet.extras)
+library(magrittr)
+library(gmapsdistance)
+library(plotly)
+library(googleway)
+library(mapview)
+library(shinyWidgets)
+library(googleVis)
+register_google(key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+```
+
+
+
+```{r}
+# fuel project
+# import data
+altfuel <- read.csv("~/Desktop/ADS/proj 2/alt_fuel_stations.csv") # need to change for u guys
+altfuel <- altfuel[altfuel$Country == "US",] # using only US
+alt <- head(altfuel, 5000) # shorter version of data for quick testing
+alt_fuel_images <- head(fuel_images,5000)
+
+altfuel$year <- substr(altfuel$Open.Date,0,4)
+
+# getting street view images for all locations
+fuel_images <- NULL
+for (i in 1:nrow(altfuel)){
+  fuel_images[i] <- google_streetview(location = c(altfuel$Latitude[i],altfuel$Longitude[i]), size=c(100,100), output="html", key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
+}
+altfuel$images <- fuel_images # street view images column
+
+pal <- colorFactor(c("red", "yellow", "orange","green","grey","purple","blue"), domain = unique(altfuel$station_type)) # color palette by fuel type
+
+car_data <- read.csv("~/Desktop/ADS/proj 2/light-duty-vehicles.csv")
+
+by_state <- altfuel %>%
+  group_by(State) %>%
+  tally()
+by_state <- by_state[-c(1,4,42),]
+by_state <- by_state[-8,]
+stateabb <- as.data.frame(state.abb)
+stateabb$state.abb <- as.character(state.abb)
+
+```
+ 
+
+
+
+```{r}
+# park data
+# import data
+category <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Categories.csv")
+links <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Links.csv")
+listing <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Listing.csv")
+organizers <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Organizers.csv")
+images <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Images.csv")
+locations <- read.csv("~/Desktop/ADS/proj 2/NYC_Parks_Events_Listing___Event_Locations.csv")
+
+# problem: multiple categories for one event
+
+# combine all tables into one
+parks <- locations %>%
+  join(organizers, type="left", by="event_id")
+parks <- parks %>%
+  join(listing, type="left", by="event_id")
+parks <- parks %>%
+  join(images, type="left", by="event_id")
+parks$borough <- case_when(
+                      parks$borough == "B" ~ "Brooklyn",
+                      parks$borough == "X" ~ "Brox",
+                      parks$borough == "M" ~ "Manhattan",
+                      parks$borough == "R" ~ "Staten Island",
+                      parks$borough == "Q" ~ "Queens"
+                      )
+parks <- as.data.frame(parks)
+sort(table(category$name), decreasing = TRUE)
+
+
+```
+
+
+
+
