@@ -30,8 +30,8 @@ Term: Spring 2019
 
 + **Project summary**: 
 This Application privides two main goals.
-1. Help user to find the appropriate charging station.
-2. Do analysis on alternative fuel stations
+1. Help user to find the nearby stations for alternative fuel.
+2. Provide a analytics dashborad to show trend and distribution of Alternative Fuel in the U.S..
 
 + **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
