@@ -32,7 +32,7 @@ Term: Spring 2019
 	+ Yuting
 
 
-+ **Contribution statement**:
++ **Contribution statement**:<br>
 Data Aquicision and Manipulation: Everyone<br>
 UI Design: Everyone<br>
 Tools(Maps, Calculator, Navigator): Daniel Lee<br>
