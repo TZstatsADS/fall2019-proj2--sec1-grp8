@@ -41,6 +41,35 @@ Github Arragement: Suzy Gao, Yuting Gong<br>
 Presentation: Rui Cao
 
 
+
++ Daniel Lee:
+-
+-
+-
+
++ Rui Cao:
+-
+-
+-
+
++ Suzy Gao:
+-
+-
+-
+
+
++ Evelyn:
+-
+-
+-
+
++ Yuting:
+-
+-
+-
+
+
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
