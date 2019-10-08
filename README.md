@@ -3,6 +3,24 @@
 <img src="doc/figs/fuel.jpg" width="600">
 
 ## U.S.Alternative Fuel Stations 
+
++ ### Project background: 
+Alternative fuels are any materials that can be used as fuels, other than conventional fuels. Common alternative fuels include Compressed Natural Gas, Electric, Hydrogen, and Liquefied Natural Gas. Currently, government and private-sector vehicle fleets are the primary users for most of these fuels and vehicles, but individual consumers are increasingly interested in them. Using alternative fuels and advanced vehicles instead of conventional fuels and vehicles helps the United States conserve fuel and lower vehicle emissions. 
+
++ ### Web Application summary: 
+This Application privides two main goals.
+
+1. This Alternative Fuel Calculator Web Application helps eco-friendly drivers find nearby alternative fuel stations and calculate the estimated price of alternative fuels they need to get to their destinations.
+- Interactive Map: Find nearby alternative fuel stations in the map
+- Calculator: Calculate estimated price the type and size of your fuel
+- Navigator: Display distance and time between the origin and destination
+
+2. This app also contains an analytics report that shows some preliminary data analysis results to help people learn more about how alternative fuel is adapted in the U.S. 
+- Fuel type by State
+- Animation of the growth of alternative fuel
+- Access type by fuel type
+
+
 Term: Spring 2019
 
 + Team sec1-grp8
@@ -13,12 +31,15 @@ Term: Spring 2019
 	+ Evelyn
 	+ Yuting
 
-+ **Project summary**: 
-This Application privides two main goals.
-1. Help user to find the nearby stations for alternative fuel.
-2. Provide a analytics dashborad to show trend and distribution of Alternative Fuel in the U.S..
 
-+ **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
++ **Contribution statement**:
+Data Aquicision and Manipulation: Everyone
+UI Design: Everyone
+Tools(Maps, Calculator, Navigator): Daniel Lee
+Analytics(Visualization): Rui Cao, Evelyn, Suzy Gao, Yuting Gong
+Github Arragement: Suzy Gao, Yuting Gong
+Presentation: Rui Cao
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
