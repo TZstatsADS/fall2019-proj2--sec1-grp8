@@ -35,8 +35,8 @@ Term: Spring 2019
 + **Contribution statement**:<br>
 Data Aquicision and Manipulation: Everyone<br>
 UI Design: Everyone<br>
-Tools(Maps, Calculator, Navigator): Daniel Lee<br>
-Analytics(Visualization): Rui Cao, Evelyn, Suzy Gao, Yuting Gong<br>
+Tools(Maps, Calculator, Navigator): Daniel Lee, Yiwen Ma<br>
+Analytics(Visualization): Rui Cao, Suzy Gao, Yiwen Ma,Yuting Gong<br>
 Github Arragement: Suzy Gao, Yuting Gong<br>
 Presentation: Rui Cao
 
@@ -58,10 +58,11 @@ Presentation: Rui Cao
 -
 
 
-+ Evelyn:
--
--
--
++ Yiwen Ma:
+- Deployed intro page and contribute to the UI design.
+- Conducted function in the calculator tools.
+- Made analytics plots
+
 
 + Yuting:
 -
