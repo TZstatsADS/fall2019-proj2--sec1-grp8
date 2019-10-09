@@ -53,8 +53,8 @@ Presentation: Rui Cao
 
 
 + Suzy Gao:
-- Organized project structure and workflow, conducted research on UI design
-- Arrange project github page, wrote summary and project description in the readme files
+- Organized project structure and workflows, conducted research on UI design
+- Arranged project github page, wrote summary and project description in readme files
 - Data visualization, created analytics graphs(bar chats)
 
 
