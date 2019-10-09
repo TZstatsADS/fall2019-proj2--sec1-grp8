@@ -43,9 +43,9 @@ Presentation: Rui Cao
 
 
 + Daniel Lee:
--
--
--
+- Contructed the backbone of the application (structure of UI and Server)
+- Integrated Google Maps API into the interactive map
+- Integrated animation of Leaflet map
 
 + Rui Cao:
 - Deployed interactive pages and contributed to the UI design. 
