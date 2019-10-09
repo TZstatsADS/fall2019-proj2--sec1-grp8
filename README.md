@@ -25,11 +25,11 @@ Term: Spring 2019
 
 + Team sec1-grp8
 + **Team members**: 
-	+ Daniel Lee
-	+ Rui Cao
-	+ Suzy Gao
-	+ Evelyn
-	+ Yuting
+	+ Daniel Lee dl3250@columbia.edu
+	+ Rui Cao rc3208@columbia.edu
+	+ Suzy Gao zg2333@columbia.edu
+	+ Yiwen Ma ym2775@tc.columbia.edu
+	+ Yuting Gong yg2641@columbia.edu
 
 
 + **Contribution statement**:<br>
