@@ -59,7 +59,7 @@ Presentation: Rui Cao
 
 
 + Yiwen Ma:
-- Deployed intro page and contribute to the UI design.
+- Deployed introduction page and contribute to the UI design.
 - Conducted function in the calculator tools.
 - Made analytics plots
 
