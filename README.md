@@ -62,9 +62,9 @@ Term: Spring 2019
 
 
 + Yuting:
-- Data visualization, made analytics plots
-- Conducted research on UI design
--
+- Data visualization, plotted graphs using plotly for analytics page
+- Conducted research on UI design and wrote introduction texts for the intro page
+- Arranged project github, organized sub-folders and wrote project readme files
 
 
 
