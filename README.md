@@ -2,12 +2,14 @@
 
 <img src="doc/figs/intro_pic.jpg" width="600">
 
-## U.S.Alternative Fuel Stations 
+## U.S. Alternative Fuel Stations 
 
 + ### Project background: 
 Alternative fuels are any materials that can be used as fuels, other than conventional fuels. Common alternative fuels include Compressed Natural Gas, Electric, Hydrogen, and Liquefied Natural Gas. Currently, government and private-sector vehicle fleets are the primary users for most of these fuels and vehicles, but individual consumers are increasingly interested in them. Using alternative fuels and advanced vehicles instead of conventional fuels and vehicles helps the United States conserve fuel and lower vehicle emissions. 
 
-Data source: https://afdc.energy.gov/data_download/alt_fuel_stations_format
+Data source: 
+- Alternative fuel stataions: https://afdc.energy.gov/data_download/alt_fuel_stations_format
+- Conventional car data: 
 
 + ### Web Application summary: 
 This Application privides two main goals.
