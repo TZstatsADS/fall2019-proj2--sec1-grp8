@@ -43,7 +43,8 @@ Term: Spring 2019
 - Integrated animation of Leaflet map
 
 + Rui Cao:
-- Deployed interactive pages and contributed to the UI design. 
+- Contributed to the UI design
+- Data visualization,deployed interactive map using Leaflet package
 - Presentor 
 
 
@@ -61,8 +62,8 @@ Term: Spring 2019
 
 
 + Yuting:
--
--
+- Data visualization, made analytics plots
+- Conducted research on UI design
 -
 
 
