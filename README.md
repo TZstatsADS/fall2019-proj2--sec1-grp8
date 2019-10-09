@@ -53,9 +53,9 @@ Term: Spring 2019
 
 
 + Yiwen Ma:
-- Deployed introduction page and contribute to the UI design.
-- Conducted function in the calculator tools.
-- Made analytics plots
+- Deployed introduction page and contribute to the UI design
+- Conducted function in the calculator tools
+- Data visualization, made analytics plots
 
 
 + Yuting:
