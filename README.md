@@ -37,14 +37,14 @@ Data Aquicision and Manipulation: Everyone<br>
 UI Design: Everyone<br>
 Tools(Maps, Calculator, Navigator): Daniel Lee, Yiwen Ma<br>
 Analytics(Visualization): Rui Cao, Suzy Gao, Yiwen Ma,Yuting Gong<br>
-Github Arragement: Suzy Gao, Yuting Gong<br>
+Github Arragement: Suzy Gao, Yuting Gong, Daniel Lee<br>
 Presentation: Rui Cao
 
 
 
 + Daniel Lee:
-- Contructed the backbone of the application (structure of UI and Server)
-- Integrated Google Maps API into the interactive map
+- Contructed the backbone of the application (structured UI and Server)
+- Integrated Google Maps API into the interactive map (navigation, direction, geocode)
 - Integrated animation of Leaflet map
 
 + Rui Cao:
