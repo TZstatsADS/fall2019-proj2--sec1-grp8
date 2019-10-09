@@ -48,9 +48,9 @@ Presentation: Rui Cao
 -
 
 + Rui Cao:
--
--
--
+- Deployed interactive pages and contributed to the UI design. 
+- Presentor 
+
 
 + Suzy Gao:
 -
