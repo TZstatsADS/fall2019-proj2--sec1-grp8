@@ -3,4 +3,4 @@
 ### Output folder
 
 The output directory contains analysis output, processed datasets, logs, or other processed things.
-
+- includes necessary image files for the applications
