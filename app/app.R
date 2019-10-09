@@ -44,11 +44,12 @@ library(gbutils)
 register_google(key="AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc")
 key <- "AIzaSyAZxUv1WdzxUcesZsc3xwgm2Caz2PTEMVc"
 
-#setwd('D:\\CUSTAT\\5243\\fall2019-proj2--sec1-grp4\\app')
-#setwd("~/Desktop/ADS/proj 2/application")
+########please set you working directory to your project folder#######
+
 # fuel project
 # import data
-altfuel <- read.csv("./alt_fuel_stations.csv") 
+setwd("/Users/suzyg./Desktop/fall2019-proj2--sec1-grp8")
+altfuel <- read.csv("data/alt_fuel_stations.csv") 
 altfuel <- altfuel[altfuel$Country == "US",] # using only US
 altfuel$year <- substr(altfuel$Open.Date,0,4)
 # changing geocode for the outlier
@@ -78,10 +79,10 @@ anal_data <- as.data.frame(anal_data)
 
 pal <- colorFactor(c("red", "yellow", "orange","green","grey","purple","blue"), domain = unique(altfuel$station_type)) # color palette by fuel type
 
-car_data <- read.csv("./light-duty-vehicles.csv")
+car_data <- read.csv("data/light-duty-vehicles.csv")
 
 # choropleth data
-states <- geojsonio::geojson_read("station_distribution.geojson", what = "sp")
+states <- geojsonio::geojson_read("data/station_distribution.geojson", what = "sp")
 
 ui <- 
     dashboardPage(skin = "green",
@@ -328,13 +329,13 @@ server <- function(input, output) {
     
     output$intro_pic <- renderImage({
         filename <- 
-            (file.path('intro_pic.jpg'))
+            (file.path('doc/figs/intro_pic.jpg'))
         list(src = filename)
     }, deleteFile = FALSE)
     
     output$intro_type <- renderImage({
         filename <- 
-            (file.path('icons.jpg'))
+            (file.path('doc/figs/icons.jpg'))
         list(src = filename)
     }, deleteFile = FALSE)
     
@@ -400,11 +401,11 @@ server <- function(input, output) {
         fuel_price[1,input$fuel_price] * input$tank
     })
     output$fuel_table1 <- renderImage({
-        filename <- normalizePath(file.path('table2.png'))
+        filename <- normalizePath(file.path('output/table2.png'))
         list(src = filename, width = "300px", height="300px")
     }, deleteFile = FALSE)
     output$fuel_table2 <- renderImage({
-        filename <- normalizePath(file.path('table3.png'))
+        filename <- normalizePath(file.path('output/table3.png'))
         list(src = filename, width = "300px", height="300px")
     }, deleteFile = FALSE)
     output$fuel_description <- renderText({
