@@ -16,14 +16,14 @@ Data source:
 This Application privides two main goals.
 
 1. This Alternative Fuel Calculator Web Application helps eco-friendly drivers find nearby alternative fuel stations and calculate the estimated price of alternative fuels they need to get to their destinations.
-- Interactive Map: Find nearby alternative fuel stations in the map
-- Calculator: Calculate estimated price the type and size of your fuel
-- Navigator: Display distance and time between the origin and destination
+	- Interactive Map: Find nearby alternative fuel stations in the map
+	- Calculator: Calculate estimated price the type and size of your fuel
+	- Navigator: Display distance and time between the origin and destination
 
 2. This app also contains an analytics report that shows some preliminary data analysis results to help people learn more about how alternative fuel is adapted in the U.S. 
-- Fuel type by State
-- Animation of the growth of alternative fuel
-- Access type by fuel type
+	- Fuel type by State
+	- Animation of the growth of alternative fuel
+	- Access type by fuel type
 
 
 Term: Spring 2019
@@ -41,34 +41,34 @@ Term: Spring 2019
 
 
 + Daniel Lee:
-- Contructed the backbone of the application (structured UI and Server)
-- Integrated Google Maps API into the interactive map (navigation, direction, geocode)
-- Integrated animation of Leaflet map
+	- Contructed the backbone of the application (structured UI and Server)
+	- Integrated Google Maps API into the interactive map (navigation, direction, geocode)
+	- Integrated animation of Leaflet map
 
 + Rui Cao:
-- Contributed to the UI design
-- Data visualization,deployed interactive map using Leaflet package
-- Presentor 
+	- Contributed to the UI design
+	- Data visualization,deployed interactive map using Leaflet package
+	- Presentor 
 
 
 + Suzy Gao:
-- Organized project structure and workflows, conducted research on UI design
-- Arranged project github page, wrote summary and project description in readme files
-- Data visualization, created analytics graphs(bar chats)
+	- Organized project structure and workflows, conducted research on UI design
+	- Arranged project github page, wrote summary and project description in readme files
+	- Data visualization, created analytics graphs(bar chats)
 
 
 
 + Yiwen Ma:
-- Deployed introduction page and contribute to the UI design
-- Conducted function in the calculator tools
-- Data visualization, made analytics plots
+	- Deployed introduction page and contribute to the UI design
+	- Conducted function in the calculator tools
+	- Data visualization, made analytics plots
 
 
 + Yuting:
-- Data visualization, plotted graphs using plotly for analytics page
-- Conducted research on UI design
-- Contributed to the introduction page and wrote introduction texts
-- Arranged project github, organized sub-folders and wrote project readme files
+	- Data visualization, plotted graphs using plotly for analytics page
+	- Conducted research on UI design
+	- Contributed to the introduction page and wrote introduction texts
+	- Arranged project github, organized sub-folders and wrote project readme files
 
 
 
